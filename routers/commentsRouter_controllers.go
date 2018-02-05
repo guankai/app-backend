@@ -13,6 +13,13 @@ func init() {
 			AllowHTTPMethods: []string{"post"},
 			Params: nil})
 
+	beego.GlobalControllerRouter["app-backend/controllers:AppUserController"] = append(beego.GlobalControllerRouter["app-backend/controllers:AppUserController"],
+		beego.ControllerComments{
+			Method: "DeleteUser",
+			Router: `/:userId/delete`,
+			AllowHTTPMethods: []string{"delete"},
+			Params: nil})
+
 	beego.GlobalControllerRouter["app-backend/controllers:ObjectController"] = append(beego.GlobalControllerRouter["app-backend/controllers:ObjectController"],
 		beego.ControllerComments{
 			Method: "Post",

@@ -74,3 +74,22 @@ func (u *AppUser) FindByPhone(phone string) (int, error) {
 	}
 	return SuccessDB, nil
 }
+
+func (u *AppUser) FindById(id int) (int, error) {
+	o := db.GetOrmer()
+	user := new(AppUser)
+	err := o.QueryTable(user).Filter("id", id).One(u)
+	if err != nil {
+		return ErrDatabase, err
+	}
+	return SuccessDB, nil
+}
+
+func (u *AppUser) DeleteUser() (int, error) {
+	o := db.GetOrmer()
+	_, err := o.Delete(u)
+	if err != nil {
+		return ErrDatabase, err
+	}
+	return SuccessDB, nil
+}

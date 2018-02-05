@@ -65,11 +65,7 @@ func (base *BaseController) RetError(e *ControllerError) {
 }
 
 func (base *BaseController) RetSuccess(ret interface{}) {
-	s := ControllerSuccess{Status:http.StatusOK,}
-	s.Status = http.StatusOK
-	s.Code = 0
-	s.Message = "Success"
-	s.Data = ret
+	s := ControllerSuccess{Status: http.StatusOK, Code: 0, Message: "Success", Data: ret}
 	base.Ctx.Output.Header("Content-Type", "application/json; charset=utf-8")
 	base.Ctx.ResponseWriter.WriteHeader(s.Status)
 	base.Data["json"] = s
