@@ -67,3 +67,37 @@ func (c *AppUserController) DeleteUser() {
 	}
 	c.RetSuccess("delete user success")
 }
+
+// @Description user login
+// @param login body InputJson true "login json"
+// @Success 200 {string}
+// @router /login [post]
+func (c *AppUserController) Login() {
+	beego.Info("app login start...")
+	loginForm := models.LoginForm{}
+
+	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &loginForm); err != nil {
+		c.RetError(errInputData)
+		return
+	}
+	user := models.AppUser{}
+	if code, err := user.FindByPhone(loginForm.Phone); err != nil {
+		beego.Error("FindByPhone", err)
+		if code == models.ErrNotFound {
+			c.RetError(errNoUser)
+		} else {
+			c.RetError(errDatabase)
+		}
+		return
+	}
+	if ok, err := user.CheckPass(loginForm.Password); err != nil {
+		beego.Error("CheckUserPassword", err)
+		c.RetError(errDatabase)
+		return
+	}else if !ok{
+		c.RetError(errPass)
+		return
+	}
+	user.ClearPass()
+	c.RetSuccess(&user)
+}

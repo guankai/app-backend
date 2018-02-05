@@ -93,3 +93,18 @@ func (u *AppUser) DeleteUser() (int, error) {
 	}
 	return SuccessDB, nil
 }
+
+// CheckPass compare input password.
+func (u *AppUser) CheckPass(pass string) (ok bool, err error) {
+	hash, err := generatePassHash(pass, u.Salt)
+	if err != nil {
+		return false, err
+	}
+
+	return u.Password == hash, nil
+}
+
+func (u *AppUser) ClearPass() {
+	u.Password = ""
+	u.Salt = ""
+}
