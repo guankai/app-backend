@@ -1,3 +1,4 @@
 # beego ignore
 app-backend
 lastupdate.tmp
+swagger/
