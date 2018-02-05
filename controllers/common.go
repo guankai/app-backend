@@ -65,7 +65,7 @@ func (base *BaseController) RetError(e *ControllerError) {
 }
 
 func (base *BaseController) RetSuccess(ret interface{}) {
-	s := ControllerSuccess{}
+	s := ControllerSuccess{Status:http.StatusOK,}
 	s.Status = http.StatusOK
 	s.Code = 0
 	s.Message = "Success"
